@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row">
+
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+
+        <!-- Blog Details Section -->
+        <section id="blog-details" class="blog-details section">
+          <div class="container">
+
+            <article class="article">
+
+              <div class="post-img">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="" class="img-fluid">
+                {% endif %}
+              </div>
+
+              <h2 class="title">{{ post.title }}</h2>
+
+              <div class="meta-top">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a><time datetime="{{ post.created_at|date:"d-m-Y H:i" }}">{{ post.created_at|date:"d-m-Y H:i" }}</time></a></li>
+                </ul>
+              </div><!-- End meta top -->
+
+              <div class="content">
+                <p>
+                    {{ post.content }}
+                </p>
+
+              </div><!-- End post content -->
+
+            </article>
+
+          </div>
+        </section><!-- /Blog Details Section -->
+       
+      </div>
+
+      <div class="col-lg-4 sidebar" data-aos="fade-up" data-aos-delay="200">
+
+        <div class="widgets-container">
+
+          <!-- Blog Author Widget -->
+          <div class="blog-author-widget widget-item">
+
+            <div class="d-flex flex-column align-items-center">
+              <img src="{% static 'img/favicon/favicon.png' %}" class="rounded-circle flex-shrink-0" alt="">
+              <h4>Zinnur</h4>
+              <div class="social-links">
+                <a href="https://www.instagram.com/zinnur__uz"><i class="bi bi-instagram"></i> zinnur__uz</a> <br>
+                <a href="https://t.me/zinnur_uzz"><i class="biu bi-telegram"></i> zinnur_uzz</a>
+              </div>
+
+            </div>
+          </div><!--/Blog Author Widget -->
+
+          <!-- Search -->
+          <div class="search-widget widget-item">
+            <h3 class="widget-title">Qidirish</h3>
+            <form method="get" action="">
+              <input type="text" name="q" value="{{ search_query|default:'' }}" placeholder="Yangilik qidirish...">
+              <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+            </form>
+          </div><!--/Search  -->
+
+          <!-- So'ngi yangiliklar -->
+          <div class="recent-posts-widget widget-item">
+            <h3 class="widget-title">So'ngi yangiliklar</h3>
+            {% if search_query %}
+              <div class="mb-2" style="font-size:0.95rem;color:#007bff;">Qidiruv natijalari: <b>{{ search_query }}</b></div>
+            {% endif %}
+            {% for item in latest_news %}
+            <div class="post-item mb-3">
+              <h4 class="mb-1"><a href="{% url 'news:news_detail' item.pk %}">{{ item.title|truncatechars:50 }}</a></h4>
+              <p class="mb-1" style="font-size: 0.9rem; color: #666;">{{ item.content|truncatechars:100 }}</p>
+              <time datetime="{{ item.created_at|date:'Y-m-d' }}" style="font-size: 0.8rem; color: #aaa;">{{ item.created_at|date:'d-m-Y' }}</time>
+            </div>
+            {% empty %}
+            <div class="post-item">Natijalar topilmadi.</div>
+            {% endfor %}
+          </div><!-- So'ngi yangiliklar -->
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}

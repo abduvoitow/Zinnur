@@ -1,0 +1,497 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Biz haqimizda Section -->
+    <section id="Biz haqimizda" class="Biz haqimizda section">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2" data-aos="fade-up" data-aos-delay="400">
+            <div class="swiper init-swiper">
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  },
+                  "breakpoints": {
+                    "320": {
+                      "slidesPerView": 1,
+                      "spaceBetween": 40
+                    },
+                    "1200": {
+                      "slidesPerView": 1,
+                      "spaceBetween": 1
+                    }
+                  }
+                }
+              </script>
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img src="{% static 'img/1.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+                <div class="swiper-slide">
+                  <img src="{% static 'img/2.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+                <div class="swiper-slide">
+                  <img src="{% static 'img/3.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+          <div class="col-lg-4 order-lg-1">
+            <span class="section-subtitle" data-aos="fade-up" data-aos-delay="200"><b>Xush Kelibsiz</b></span>
+            <h1 class="mb-4" data-aos="fade-up">
+              Zinnur Birlashmasi
+            </h1>
+            <p data-aos="fade-up">
+              Zinnur - Oʻzbekiston boʻylab mashur boʻlgan sanoat birlashmasi boʻlib, bir nechta yetakchi zavod va korxonalarni oʻz  ichiga oladi. Korxona lak-boʻyoq, mebel, oyoq kiyim va boshqa mahsulotlarni ishlab chiqaradi.
+            </p>
+            <p class="mt-5" data-aos="fade-up">
+              <a href="#" class="btn btn-get-started">Boshlash</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Biz haqimizda Section -->
+
+    <!-- Biz haqimizda 2 Section -->
+    <section id="Biz haqimizda-2" class="Biz haqimizda-2 section light-background">
+
+      <div class="container">
+        <div class="content">
+          <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-5 col-lg-4 col-xl-4 order-lg-2 offset-xl-1 mb-4">
+              <div class="img-wrap text-center text-md-left" data-aos="fade-up" data-aos-delay="100">
+                <div class="img">
+              <img src="{% static 'img/about.jpg' %}" alt="circle image" class="img-fluid">
+                </div>
+              </div>
+            </div>
+
+            <div class="offset-md-0 offset-lg-1 col-sm-12 col-md-5 col-lg-5 col-xl-4" data-aos="fade-up">
+              <div class="px-3">
+            <span class="content-subtitle">Biz haqimizda</span>
+                <h2 class="content-title text-start">
+              Zinnur ishlab chiqarish birlashmasi 2014-yildan beri faoliyat yuritadi
+                </h2>
+                <p class="mb-5">
+              Korxonamiz Sirdaryo viloyatida joylashgan bo‘lib, dastlab lak va bo‘yoq mahsulotlarini ishlab chiqarish bilan ish boshlagan. Hozirgi kunda faoliyatimiz 3 yo‘nalishni qamrab olgan: lak va bo‘yoq, charm-poyabzal, mebel va mebel jihozlari. Ishlab chiqarishda Xitoy texnologiyalariga asoslangan zamonaviy uskunalardan foydalanamiz. Har bir mahsulotimiz davlat standartlariga to‘liq mos keladi va sifatli sertifikatlarga ega.
+                </p>
+                <p>
+              <a href="#" class="btn-get-started">Batafsil</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+<!-- /Biz haqimizda 2 Section -->
+
+
+    <!-- Services Section -->
+    <section id="services" class="services section light-background">
+
+      <div class="container">
+        <div class="row gy-4 justify-content-center">
+
+          <div class="col-lg-3">
+            <div class="services-item" data-aos="fade-up">
+              <div class="services-icon">
+                <i class="bi bi-paint-bucket"></i>
+              </div>
+              <div>
+                <h3>Bo'yoq va laklar</h3>
+            <p>
+              Sig‘imi 2-3 tonna bo‘lgan qozonlar va 4500 litrli mikserlarda har xil rangdagi bo‘yoq, lak va emulsiya mahsulotlari ishlab chiqariladi.
+            </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="services-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="services-icon">
+                <i class="bi bi-house"></i>
+              </div>
+              <div>
+                <h3>Mebellar</h3>
+            <p>
+              LDSP va MDF materiallaridan mebel qismlari kesiladi, qoplama yopishtiriladi, yig‘iladi va sifatli holda qadoqlanadi.
+            </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="services-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="services-icon">
+                <i class="bi bi-person-walking"></i>
+              </div>
+              <div>
+                <h3>Oyoq kiyimlar</h3>
+            <p>
+              Charmdan tayyorlangan detallar tikiladi, taglik yopishtiriladi, issiqlikda pishiriladi va sifatli qilib qadoqlanadi.
+            </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</section>
+<!-- /Services Section -->
+
+
+
+
+
+  <!-- Team Section -->
+  <section id="team" class="team section">
+
+    <div class="site-section slider-team-wrap">
+      <div class="container">
+
+        <div class="slider-nav d-flex justify-content-end mb-3">
+          <a href="#" class="js-prev js-custom-prev"><i class="bi bi-arrow-left-short"></i></a>
+          <a href="#" class="js-next js-custom-next"><i class="bi bi-arrow-right-short"></i></a>
+        </div>
+
+        <div class="swiper init-swiper" data-aos="fade-up" data-aos-delay="100">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "1",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "navigation": {
+                "nextEl": ".js-custom-next",
+                "prevEl": ".js-custom-prev"
+              },
+              "breakpoints": {
+                "640": {
+                  "slidesPerView": 2,
+                  "spaceBetween": 30
+                },
+                "768": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 30
+                },
+                "1200": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 30
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe  src="{% static 'img/Sertificates/Эмаль бўёқ 115.PDF' %}" frameborder="0" ></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="#">Emal bo‘yoq </a>
+                </h3>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe src="{% static 'img/Sertificates/Эластик қопламали бўёқ.PDF' %}" frameborder="0"></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="{% static 'img/Sertificates/Эластик қопламали бўёқ.PDF' %}">Elastik qoplamali bo‘yoq</a>
+                </h3>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe src="{% static 'img/Sertificates/люменицент бўёқ.PDF' %}" frameborder="0"></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="{% static 'img/Sertificates/люменицент бўёқ.PDF' %}">Lyuminestsent bo‘yoq</a>
+                </h3>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe src="{% static 'img/Sertificates/Акрил полимери сувли бўёқ.PDF' %}" frameborder="0"></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="{% static 'img/Sertificates/Акрил полимери сувли бўёқ.PDF' %}">Akril polimerli suvli bo‘yoq</a>
+                </h3>
+              </div>
+            </div>
+            
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe src="{% static 'img/Sertificates/мебел 2023.PDF' %}" frameborder="0"></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="{% static 'img/Sertificates/мебел 2023.PDF' %}">Mebel</a>
+                </h3>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="team">
+                <div class="pic">
+                   <iframe  src="{% static 'img/Sertificates/MEXR VODIYSI.pdf' %}"  frameborder="0"></iframe>
+                </div>
+                <h3 clas="">
+                  <a href="{% static 'img/Sertificates/MEXR VODIYSI.pdf' %}">Mexr Vodiysi</a>
+                </h3>
+            </div>
+          </div>
+
+        
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </div>
+  </section><!-- /Team Section -->>
+
+
+
+
+    <!-- Yangiliklar card-->
+    <section id="blog-posts" class="blog-posts section">
+
+      <div class="container section-title" data-aos="fade-up">
+        <p>So'ngi yangiliklar</p>
+        <h2>Yangiliklar</h2>
+      </div>
+
+      
+      <div class="container">
+        <div class="row gy-5">
+          {% for item in latest_news %}
+
+          <div class="col-lg-4">
+            <article>
+
+              <div class="post-img">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid">
+                {% endif %}
+              </div>
+
+              <h2 class="title">
+                <a href="{% url 'news:news_detail' item.pk %}">{{ item.title }}</a>
+              </h2>
+
+              <div class="meta-top">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> {{ item.created_at|date:"d-m-Y H:i" }}</li>
+                </ul>
+              </div>
+
+              <div class="content">
+                <p>{{ item.content|truncatechars:150 }}</p>
+
+                <div class="read-more">
+                  <a href="{% url 'news:news_detail' item.pk %}">Batafsil</a>
+                </div>
+              </div>
+
+            </article>
+          </div><!-- End post list item -->
+
+
+          {% endfor %}
+        </div><!-- End blog posts list -->
+        </div>
+      <div class="d-flex justify-content-center mt-3" data-aos="fade-up" data-aos-delay="400">
+        <a href="{% url 'news:news_list' %}" class="btn btn-get-started">Barchasi</a>
+      </div>
+    </section><!-- /Blog Posts 2 Section -->
+
+
+
+
+    <!-- Tabs Section -->
+    <section id="tabs" class="tabs section light-background">
+
+      <div class="container">
+        <div class="row gap-x-lg-4 justify-content-between">
+          <div class="col-lg-4 js-custom-dots">
+            <a href="#" class="service-item link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
+              <div class="service-icon color-1 mb-4">
+                <i class="bi bi-paint-bucket"></i>
+              </div>
+              <!-- /.icon -->
+              <div class="service-contents">
+                <h3>Bo'yoq va laklar</h3>
+                <p>
+                  Sig‘imi 2-3 tonna bo‘lgan qozonlar va 4500 litrli mikserlarda har xil rangdagi bo‘yoq, lak va emulsiya mahsulotlari ishlab chiqariladi.
+                </p>
+              </div>
+              <!-- /.service-contents-->
+            </a>
+            <!-- /.service -->
+
+            <a href="#" class="service-item link horizontal d-flex" data-aos="fade-left" data-aos-delay="100">
+              <div class="service-icon color-2 mb-4">
+                <i class="bi bi-bag-check"></i>
+              </div>
+              <!-- /.icon -->
+              <div class="service-contents">
+                <h3>Mebellar</h3>
+                <p>
+                  LDSP va MDF materiallaridan mebel qismlari kesiladi, qoplama yopishtiriladi, yig‘iladi va sifatli holda qadoqlanadi.
+                </p>
+              </div>
+              <!-- /.service-contents-->
+            </a>
+            <!-- /.service -->
+
+
+
+            <a href="#" class="service-item link horizontal d-flex" data-aos="fade-left" data-aos-delay="300">
+              <div class="service-icon color-4 mb-4">
+                <i class="bi bi-easel"></i>
+              </div>
+              <!-- /.icon -->
+              <div class="service-contents">
+                <h3>Oyoq kiyimlar</h3>
+                <p>
+                  Charmdan tayyorlangan detallar tikiladi, taglik yopishtiriladi, issiqlikda pishiriladi va sifatli qilib qadoqlanadi.
+                </p>
+              </div>
+              <!-- /.service-contents-->
+            </a>
+            <!-- /.service -->
+          </div>
+
+          <div class="col-lg-8">
+            <div class="swiper init-swiper-tabs">
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoHeight": true,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  },
+                  "breakpoints": {
+                    "320": {
+                      "slidesPerView": 1,
+                      "spaceBetween": 40
+                    },
+                    "1200": {
+                      "slidesPerView": 1,
+                      "spaceBetween": 1
+                    }
+                  }
+                }
+              </script>
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img src="{% static 'img/33.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+                <div class="swiper-slide">
+                  <img src="{% static 'img/11.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+                <div class="swiper-slide">
+                  <img src="{% static 'img/22.jpg' %}" alt="Image" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Tabs Section -->
+
+
+    
+
+    <!-- Faq Section -->
+    <section id="faq" class="faq section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+    <p>Yordam</p>
+    <h2>Ko‘p so‘raladigan savollar</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-12">
+            <div class="custom-accordion" id="accordion-faq">
+
+              <div class="accordion-item">
+                <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-1">
+                Mahsulotlaringiz qayerda ishlab chiqariladi?
+                  </button>
+                </h2>
+            <div id="collapse-faq-1" class="collapse" data-parent="#accordion-faq">
+                  <div class="accordion-body">
+                Barcha mahsulotlarimiz Sirdaryo viloyatida joylashgan “Zinnur” ishlab chiqarish birlashmasida ishlab chiqariladi.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-2">
+                Qaysi turdagi mahsulotlarni ishlab chiqarasiz?
+              </button>
+            </h2>
+            <div id="collapse-faq-2" class="collapse" data-parent="#accordion-faq">
+                    <div class="accordion-body">
+                Bizning korxonamiz uchta asosiy yo‘nalishda faoliyat yuritadi: yuqori sifatli bo‘yoq va lak mahsulotlari, charm poyabzallar, hamda zamonaviy mebel va mebel jihozlari ishlab chiqariladi.
+              </div>
+            </div>
+          </div>
+
+            <div class="accordion-item">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-3">
+                Mahsulotlaringiz sifati qanday kafolatlanadi?
+                </button>
+              </h2>
+            <div id="collapse-faq-3" class="collapse" data-parent="#accordion-faq">
+                <div class="accordion-body">
+                Ishlab chiqarishda Xitoy texnologiyalaridan foydalaniladi. Mahsulotlarimiz O‘zbekiston davlat standartlariga to‘liq mos keladi hamda sertifikatlarga ega.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
+<!-- /Faq Section -->
+
+{% endblock %}

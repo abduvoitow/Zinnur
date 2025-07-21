@@ -1,0 +1,146 @@
+{% extends 'admin_panel/admin_base.html' %}
+{% block content %}
+{% load static %}
+{% load humanize %}
+<!-- DataTables CSS (CDN) -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <h2 class="fw-bold mb-0">Barcha mahsulotlar</h2>
+    <a href="{% url 'admin_panel:product_create' %}" class="btn btn-get-started">
+      <i class="bi bi-plus-circle me-1"></i> Qo'shish
+    </a>
+  </div>
+  <div class="table-responsive">
+    <table id="productsTable" class="table table-hover table-bordered align-middle">
+      <thead>
+        <tr>
+          <th>Tur</th>
+          <th>Nomi</th>
+          <th>Rasm</th>
+          <th>Tavsif</th>
+          <th>Narxi</th>
+          <th>Amallar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td style="font-size: 2rem; text-align: center;">
+            {% if p.type == "Bo'yoq va laklar" %} <img width="40rem" src="{% static 'img/order1.png' %}" alt=""> 
+            {% elif p.type == "Mebel" %} <img width="40rem" src="{% static 'img/order2.png' %}" alt=""> 
+            {% elif p.type == "Oyoq kiyimlar" %} <img width="40rem" src="{% static 'img/order3.png' %}" alt=""> 
+            {% endif %}
+          </td>
+          <td class="fw-semibold">{{ p.name }}</td>
+          <td class="text-center">
+            {% if p.image %}
+              <img src="{{ p.image.url }}" alt="{{ p.name }}" class="product-img-thumb" style="max-width:60px;max-height:60px;">
+            {% endif %}
+          </td>
+          <td style="max-width:200px;">{{ p.description|truncatechars:100 }}</td>
+          <td><span class="badge bg-warning text-dark">{{ p.price|floatformat:0|intcomma }} so'm</span></td>
+          <td class="text-center">
+            <a href="{% url 'admin_panel:product_edit' p.id p.model %}" class="btn btn-primary btn-sm me-1">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ p.model }}{{ p.id }}">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ p.model }}{{ p.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ p.model }}{{ p.id }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow rounded-3">
+                  <div class="modal-header">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-exclamation-triangle-fill fs-4 text-danger"></i>
+                      <h5 class="modal-title ms-2 fw-bold mb-0" id="deleteModalLabel{{ p.model }}{{ p.id }}">O'chirish</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close" style="width:1em;height:1em;"></button>
+                  </div>
+                  <div class="modal-body text-center py-4 px-4" style="background: var(--surface-color); color: var(--default-color);">
+                    <div class="mb-2">
+                      <i class="bi bi-trash fs-2 text-danger"></i>
+                    </div>
+                    <div class="">Rostdan ham <strong>{{ p.name }}</strong> mahsulotini o'chirmoqchimisiz?</div>
+                  </div>
+                  <div class="modal-footer justify-content-between border-0 py-3 px-4" style="background: var(--surface-color);">
+                    <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-pill" data-bs-dismiss="modal">Bekor qilish</button>
+                    <form method="post" action="{% url 'admin_panel:product_delete' p.id p.model %}" style="display:inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger px-4 py-2 rounded-pill">Ha, O'chirish</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">Mahsulotlar topilmadi.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if is_paginated %}
+  <section id="blog-pagination" class="blog-pagination section">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <ul class="pagination pagination-lg">
+          {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}"><i class="bi bi-chevron-left"></i></a></li>
+          {% else %}
+            <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li><a class="active" href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+              <li><span>...</span></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li><a  href="?page={{ page_obj.next_page_number }}"><i class="bi bi-chevron-right"></i></a></li>
+          {% else %}
+            <li><a  href="#"><i class="bi bi-chevron-right"></i></a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+<!-- DataTables JS (CDN) -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('#productsTable').DataTable({
+      language: {
+        search: "Qidiruv:",
+        lengthMenu: "_MENU_ ta ko'rsatish",
+        info: "_TOTAL_ tadan _START_ - _END_ ko'rsatilmoqda",
+        paginate: {
+          previous: "Oldingi",
+          next: "Keyingi"
+        },
+        emptyTable: "Ma'lumot yo'q"
+      },
+      responsive: true,
+      pageLength: 10,
+      lengthMenu: [5, 10, 25, 50, 100]
+    });
+  });
+</script>
+
+<!-- Animate.css CDN for modal animation -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+{% endblock %}

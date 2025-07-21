@@ -1,0 +1,135 @@
+{% extends 'admin_panel/admin_base.html' %}
+{% block content %}
+
+<!-- DataTables CSS (CDN) -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <h2 class="fw-bold mb-0">Yangiliklar</h2>
+    <a href="{% url 'admin_panel:news_create' %}" class="btn btn-get-started">
+      <i class="bi bi-plus-circle me-1"></i> Qo'shish
+    </a>
+  </div>
+  <div class="table-responsive">
+    <table id="newsTable" class="table table-hover table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Sarlavha</th>
+          <th>Tavsif</th>
+          <th>Rasm</th>
+          <th>Sana</th>
+          <th>Amallar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in news %}
+        <tr>
+          <td class="fw-semibold">{{ item.title|truncatechars:20 }}</td>
+          <td style="max-width:200px;">{{ item.content|truncatechars:100 }}</td>
+          <td class="text-center">  
+            {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.title }}" class="product-img-thumb" style="max-width:60px;max-height:60px;">
+            {% else %}
+              <img src="" alt="Image" class="product-img-thumb" style="max-width:60px;max-height:60px;">
+            {% endif %}
+          </td>
+          <td class="text-center"><span class="badge bg-light text-dark border">{{ item.created_at|date:"d-m-Y H:i" }}</span></td>
+          <td class="text-center">
+            <a href="{% url 'admin_panel:news_edit' item.id %}" class="btn btn-primary btn-sm me-1">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ item.id }}">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ item.id }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow rounded-3">
+                  <div class="modal-header">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-exclamation-triangle-fill fs-4 text-danger"></i>
+                      <h5 class="modal-title ms-2 fw-bold mb-0" id="deleteModalLabel{{ item.id }}">O'chirish</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close" style="width:1em;height:1em;"></button>
+                  </div>
+                  <div class="modal-body text-center py-4 px-4" style="background: var(--surface-color); color: var(--default-color);">
+                    <div class="mb-2">
+                      <i class="bi bi-trash fs-2 text-danger"></i>
+                    </div>
+                    <div>Rostdan ham <strong>{{ item.title }}</strong> yangiligini o'chirmoqchimisiz?</div>
+                  </div>
+                  <div class="modal-footer justify-content-between border-0 py-3 px-4" style="background: var(--surface-color);">
+                    <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-pill" data-bs-dismiss="modal">Bekor qilish</button>
+                    <form method="post" action="{% url 'admin_panel:news_delete' item.id %}" style="display:inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger px-4 py-2 rounded-pill">Ha, O'chirish</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center">Yangiliklar topilmadi.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if is_paginated %}
+  <section id="blog-pagination" class="blog-pagination section">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <ul class="pagination pagination-lg">
+          {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}"><i class="bi bi-chevron-left"></i></a></li>
+          {% else %}
+            <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li><a class="active" href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+              <li><span>...</span></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li><a  href="?page={{ page_obj.next_page_number }}"><i class="bi bi-chevron-right"></i></a></li>
+          {% else %}
+            <li><a  href="#"><i class="bi bi-chevron-right"></i></a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+<!-- DataTables JS (CDN) -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('#newsTable').DataTable({
+      language: {
+        search: "Qidiruv:",
+        lengthMenu: "_MENU_ ta ko'rsatish",
+        info: "_TOTAL_ tadan _START_ - _END_ ko'rsatilmoqda",
+        paginate: {
+          previous: "Oldingi",
+          next: "Keyingi"
+        },
+        emptyTable: "Ma'lumot yo'q"
+      },
+      responsive: true,
+      pageLength: 10,
+      lengthMenu: [5, 10, 25, 50, 100]
+    });
+  });
+</script>
+{% endblock %}

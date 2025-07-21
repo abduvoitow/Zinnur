@@ -1,0 +1,545 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Zinnur</title>
+  <link rel="shortcut icon" href="{% static 'img/favicon/favicon.png' %}" type="image/x-icon">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+  <style>
+    /* Admin Bildirishnoma Tizimi */
+    .notification-container {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+    }
+    
+    .notification-item {
+        background: #fff;
+        color: #222;
+        border-radius: 16px;
+        padding: 18px 22px 18px 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 8px 32px rgba(52,191,73,0.13), 0 1.5px 6px rgba(0,0,0,0.07);
+        animation: fadeInDown 0.7s;
+        position: relative;
+        overflow: hidden;
+        border-left: 6px solid #34bf49;
+        font-family: 'Lato', 'Roboto', Arial, sans-serif;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    
+    .notification-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #fff, #ffd700);
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    .notification-item .btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .notification-item .btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .notification-badge {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 10000;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .sound-indicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        z-index: 10001;
+        display: none;
+    }
+
+    /* Yangi buyurtma notification (pro dizayn) */
+    .order-toast {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      min-width: 300px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 6px 32px rgba(64,93,230,0.13);
+      padding: 1.1rem 1.5rem 1.1rem 1.2rem;
+      z-index: 9999;
+      border-left: 6px solid #f43f5e;
+      animation: fadeInDown 0.7s;
+      font-family: 'Lato', 'Roboto', Arial, sans-serif;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .notification-item .notif-icon {
+        font-size: 2rem;
+        color: #34bf49;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    .notification-item .notif-content {
+        flex: 1;
+    }
+    .notification-item .notif-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #2d465e;
+        margin-bottom: 2px;
+    }
+    .notification-item .notif-details {
+        font-size: 0.98rem;
+        color: #444;
+        margin-bottom: 6px;
+    }
+    .notification-item .notif-chip {
+        display: inline-block;
+        padding: 0.2em 0.8em;
+        font-size: 0.93em;
+        border-radius: 12px;
+        font-weight: 500;
+        margin-right: 6px;
+        margin-bottom: 2px;
+    }
+    .notif-chip.paint { background: #e0ffe7; color: #34bf49; }
+    .notif-chip.furniture { background: #e6f0ff; color: #2d465e; }
+    .notif-chip.footwear { background: #fffbe6; color: #f09819; }
+    .notification-item .notif-close {
+        background: none;
+        border: none;
+        color: #bbb;
+        font-size: 1.2rem;
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .notification-item .notif-close:hover {
+        color: #34bf49;
+    }
+  </style>
+</head>
+
+<body class="index-page">
+<!-- Admin Bildirishnoma Tizimi -->
+<div class="notification-container" id="notificationContainer"></div>
+<!-- <div class="sound-indicator" id="soundIndicator">🔊 Ovoz yoqilgan</div> -->
+
+    <header id="header" class="header sticky-top">
+        <div class="topbar d-flex align-items-center">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <b class="text-white">ADMIN PANEL</b>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-light btn-sm">Chiqish</button>
+            </form>
+        </div>
+      </div>
+    </div><!-- End Top Bar -->
+    
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between p-2">
+    
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="{% static 'img/favicon/favicon.png' %}" alt="">
+        <h1 class="sitename">Zinnur</h1>
+      </a>
+    
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li style="position:relative;">
+            <a href="{% url 'admin_panel:orders' %}" class="{% if request.resolver_match.url_name == 'orders' %}active{% endif %}" style="display:inline-flex;align-items:center;gap:4px;">
+              Buyurtmalar
+              <span id="notificationBadge" style="display:none;vertical-align:middle;margin-left:2px;background:#dc3545;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;z-index:10;animation:pulse 2s infinite;position:static;"></span>
+            </a>
+          </li>
+          <li><a href="{% url 'admin_panel:product_manage' %}" class="{% if request.resolver_match.url_name == 'product_manage' %}active{% endif %}">Mahsulotlar</a></li>
+          <li><a href="{% url 'admin_panel:news_manage' %}" class="{% if request.resolver_match.url_name == 'news_manage' %}active{% endif %}">Yangiliklar</a></li>
+          <li><a href="{% url 'admin_panel:contact_list' %}" class="{% if request.resolver_match.url_name == 'contact_list' %}active{% endif %}">Biz bilan bog'lanish</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    
+    </div>
+    </header>
+    
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+  
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+
+
+
+  <script>
+    // Admin bildirishnoma tizimi
+    const AdminNotificationSystem = {
+        // Asosiy o'zgaruvchilar
+        previousCount: 0,
+        audio: null,
+        checkInterval: null,
+       
+        init() {
+            this.setupAudio();
+            this.requestNotificationPermission();
+            this.startChecking();
+            // this.debug('Admin bildirishnoma tizimi ishga tushdi');
+        },
+        
+        // Audio tizimini sozlash
+        setupAudio() {
+            try {
+                this.audio = new Audio("{% static 'sound/sound.mp3' %}");
+                this.audio.volume = 0.6;
+                this.audio.preload = 'auto';
+                
+                this.audio.addEventListener('canplaythrough', () => {
+                    // this.debug('Audio fayl tayyor');
+                });
+                
+                this.audio.addEventListener('error', (e) => {
+                    // this.debug('Audio fayl xatosi: ' + e.message);
+                });
+                
+                // this.debug('Audio tizimi sozlandi');
+            } catch (error) {
+                // this.debug('Audio yaratishda xato: ' + error.message);
+            }
+        },
+        
+        // Browser ruxsatini so'rash
+        async requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                // this.debug('Bu brauzer bildirishnomalarni qo\'llab-quvvatlamaydi');
+                return;
+            }
+            
+            try {
+                if (Notification.permission === 'default') {
+                    const permission = await Notification.requestPermission();
+                    // this.debug('Browser ruxsati: ' + permission);
+                } else {
+                    // this.debug('Browser ruxsati: ' + Notification.permission);
+                }
+            } catch (error) {
+                // this.debug('Browser ruxsati xatosi: ' + error.message);
+            }
+        },
+        
+        // Ovozni o'ynatish
+        playSound() {
+            if (!this.audio) {
+                // this.debug('Audio mavjud emas');
+                return;
+            }
+            
+            try {
+                this.audio.currentTime = 0;
+                this.audio.play().then(() => {
+                    // this.debug('Ovoz o\'ynatildi');
+                    this.showSoundIndicator();
+                }).catch(error => {
+                    // this.debug('Ovoz o\'ynatishda xato: ' + error.message);
+                });
+            } catch (error) {
+                // this.debug('Ovoz xatosi: ' + error.message);
+            }
+        },
+        
+        // Ovoz ko'rsatkichini ko'rsatish
+        showSoundIndicator() {
+            const indicator = document.getElementById('soundIndicator');
+            if (indicator) {
+                indicator.style.display = 'block';
+            setTimeout(() => {
+                    indicator.style.display = 'none';
+                }, 2000);
+            }
+        },
+        
+        // Browser bildirishnomasini ko'rsatish
+        showBrowserNotification(count, data) {
+            if (!('Notification' in window) || Notification.permission !== 'granted') {
+                // this.debug('Browser bildirishnoma ruxsati yo\'q');
+                return;
+            }
+            
+            try {
+                // Barcha turdagi buyurtmalarni ko'rsatish
+                let orderDetails = '';
+                if (data.paint_orders > 0) {
+                    orderDetails += `🎨 Bo'yoqlar: ${data.paint_orders} ta\n`;
+                }
+                if (data.furniture_orders > 0) {
+                    orderDetails += `🪑 Mebellar: ${data.furniture_orders} ta\n`;
+                }
+                if (data.footwear_orders > 0) {
+                    orderDetails += `👟 Oyoq kiyimlar: ${data.footwear_orders} ta`;
+                }
+                
+                const notification = new Notification('🛎 Yangi Buyurtmalar!', {
+                    body: `${count} ta yangi buyurtma kelgan:\n${orderDetails}\n\nKo'rish uchun bosing.`,
+                    icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iOCIgZmlsbD0iI0ZGRDcwMCIvPgo8cGF0aCBkPSJNMTYgMjRIMTZIMjRIMjRIMzJIMzJINDBINDBINDhINDBIMzJIMjRIMTZIMTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K',
+                    tag: 'new-order',
+                    requireInteraction: false,
+                    silent: false
+                });
+                
+                notification.onclick = () => {
+                    window.focus();
+                    
+                    // Admin sahifasiga o'tish
+                    window.location.href = "/admin-panel/";
+                    notification.close();
+                };
+                
+                setTimeout(() => notification.close(), 8000);
+                
+                // this.debug('Browser bildirishnoma yuborildi');
+            } catch (error) {
+                // this.debug('Browser bildirishnoma xatosi: ' + error.message);
+            }
+        },
+        
+        // Visual bildirishnomani ko'rsatish
+        showVisualNotification(count, data) {
+            const container = document.getElementById('notificationContainer');
+            const badge = document.getElementById('notificationBadge');
+            
+            if (!container) {
+                return;
+            }
+            // Badge'ni yangilash
+            if (badge) {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'inline-flex' : 'none';
+            }
+            // Yangi bildirishnoma yaratish
+            if (count > 0) {
+                const notification = document.createElement('div');
+                notification.className = 'notification-item';
+                notification.innerHTML = `
+                    <span class="notif-icon"><i class="bi bi-bell-fill"></i></span>
+                    <div class="notif-content">
+                        <div class="notif-title">Yangi buyurtma!</div>
+                        <div class="notif-details">
+                            ${data.paint_orders > 0 ? `<span class='notif-chip paint'>🎨 Bo'yoqlar: ${data.paint_orders} ta</span>` : ''}
+                            ${data.furniture_orders > 0 ? `<span class='notif-chip furniture'>🪑 Mebellar: ${data.furniture_orders} ta</span>` : ''}
+                            ${data.footwear_orders > 0 ? `<span class='notif-chip footwear'>👟 Oyoq kiyimlar: ${data.footwear_orders} ta</span>` : ''}
+                                </div>
+                        <div class="small text-muted">Iltimos, buyurtmalarni ko‘rib chiqing.</div>
+                    </div>
+                    <button class="notif-close" onclick="this.parentElement.remove()" title="Yopish">&times;</button>
+            `;
+                // Eski bildirishnomalarni tozalash
+                container.innerHTML = '';
+                container.appendChild(notification);
+                // 15 soniyadan keyin o'chirish
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 15000);
+            } else {
+                // Bildirishnomalar yo'q bo'lsa tozalash
+                container.innerHTML = '';
+            }
+        },
+        
+        // Yangi buyurtmalarni tekshirish
+        async checkNewOrders() {
+            try {
+                // this.debug('Buyurtmalarni tekshirish...');
+                
+                const response = await fetch("/admin-panel/check-orders-public/", {
+                    method: 'GET',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
+                
+                // this.debug(`Response status: ${response.status}`);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    // this.debug('Error response: ' + errorText);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const responseText = await response.text();
+                // this.debug('Raw response: ' + responseText);
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    // this.debug('JSON parse xatosi: ' + parseError.message);
+                    // this.debug('Response text: ' + responseText);
+                    return;
+                }
+                
+                // this.debug('API javobi: ' + JSON.stringify(data));
+                
+                // Backend'da 'new_count' qaytarilayapti, 'count' emas
+                const newCount = data.new_count || data.count || 0;
+                
+                // this.debug(`Yangi buyurtmalar: ${newCount} ta (avvalgi: ${this.previousCount} ta)`);
+                // this.debug(`Bo'yoqlar: ${data.paint_orders} ta, Mebellar: ${data.furniture_orders} ta, Oyoq kiyimlar: ${data.footwear_orders} ta`);
+                
+                // Yangi buyurtma kelganda
+                if (newCount > 0 && newCount !== this.previousCount) {
+                    // this.debug(`🆕 Yangi buyurtma topildi: ${newCount} ta`);
+                    
+                    // Visual bildirishnoma
+                    this.showVisualNotification(newCount, data);
+                    
+                    // Sahifa ko'rinishda bo'lsa ovoz o'ynatish
+                    if (!document.hidden) {
+                        this.playSound();
+                    }
+                    
+                    // Sahifa ko'rinishda bo'lmasa browser notification
+                    if (document.hidden) {
+                        this.showBrowserNotification(newCount, data);
+                    }
+                }
+                
+                // Bildirishnoma yo'q bo'lsa
+                if (newCount === 0) {
+                    this.showVisualNotification(0, data);
+                }
+                
+                this.previousCount = newCount;
+                
+            } catch (error) {
+                // this.debug('Buyurtmalarni tekshirishda xato: ' + error.message);
+            }
+        },
+        
+        // Tekshirishni boshlash
+        startChecking() {
+            // Birinchi tekshirish
+            setTimeout(() => {
+                this.checkNewOrders();
+            }, 2000);
+            
+            // Har 5 soniyada tekshirish
+            this.checkInterval = setInterval(() => {
+                this.checkNewOrders();
+            }, 5000);
+            
+            // this.debug('Tekshirish boshladi');
+        },
+        
+        // Tizimni tozalash
+        cleanup() {
+            if (this.checkInterval) {
+                clearInterval(this.checkInterval);
+            }
+            // this.debug('Tizim tozalandi');
+        }
+    };
+    
+    // Sahifa yuklanganda tizimni ishga tushirish
+    document.addEventListener('DOMContentLoaded', () => {
+        AdminNotificationSystem.init();
+    });
+    
+    // Sahifa yopilganda tozalash
+    window.addEventListener('beforeunload', () => {
+        AdminNotificationSystem.cleanup();
+    });
+
+
+</script>
+</body>
+
+</html>

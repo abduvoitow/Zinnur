@@ -1,0 +1,48 @@
+{% extends 'admin_panel/admin_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container py-4 contact section">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+          <h3 class="fw-bold mb-4 text-center" style="color: var(--heading-color);">
+            {% if edit %}<i class="bi bi-pencil-square"></i> Mahsulotni tahrirlash{% else %}<i class="bi bi-plus-circle"></i> Mahsulot qo‘shish{% endif %}
+          </h3>
+          <form method="post" enctype="multipart/form-data" class="contact-form">
+            {% csrf_token %}
+            <div class="form-group mt-3">
+              <label for="{{ form.product_type.id_for_label }}" class="form-label">Mahsulot turi</label>
+              {{ form.product_type|add_class:'form-control' }}
+            </div>
+            <div class="form-group mt-3">
+              <label for="{{ form.name.id_for_label }}" class="form-label">Nomi</label>
+              {{ form.name|add_class:'form-control' }}
+            </div>
+            <div class="form-group mt-3">
+              <label for="{{ form.description.id_for_label }}" class="form-label">Tavsif</label>
+              {{ form.description|add_class:'form-control' }}
+            </div>
+            <div class="form-group mt-3">
+              <label for="{{ form.price.id_for_label }}" class="form-label">Narxi</label>
+              {{ form.price|add_class:'form-control' }}
+            </div>
+            <div class="form-group mt-3">
+              <label for="{{ form.image.id_for_label }}" class="form-label">Rasm</label>
+              {{ form.image|add_class:'form-control' }}
+              {% if edit and instance and instance.image %}
+                <div class="mt-2">
+                  <img src="{{ instance.image.url }}" width="100">
+                </div>
+              {% endif %}
+            </div>
+            <div class="text-center mt-4">
+              <button type="submit">{% if edit %}Saqlash{% else %}Qo‘shish{% endif %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
